@@ -1,13 +1,13 @@
 <template>
   <div class="space-y-8">
-    <section class="relative overflow-hidden rounded-4xl bg-[#173d32] px-6 py-8 text-white shadow-xl shadow-emerald-950/10 sm:px-10 sm:py-10">
-      <div class="absolute -right-16 -top-24 h-72 w-72 rounded-full border-36 border-[#d4e86b]/15"></div>
-      <div class="absolute -bottom-28 right-24 h-48 w-48 rounded-full bg-emerald-400/10 blur-3xl"></div>
+    <section class="relative overflow-hidden rounded-4xl bg-[var(--brand-primary)] px-6 py-8 text-white shadow-xl shadow-[var(--brand-shadow)] sm:px-10 sm:py-10">
+      <div class="absolute -right-16 -top-24 h-72 w-72 rounded-full border-36 border-[var(--brand-accent)]/15"></div>
+      <div class="absolute -bottom-28 right-24 h-48 w-48 rounded-full bg-[var(--brand-primary-strong)]/10 blur-3xl"></div>
       <div class="relative max-w-2xl">
-        <p class="text-sm font-semibold tracking-[0.18em] text-[#d4e86b] uppercase">Your workspace</p>
+        <p class="text-sm font-semibold tracking-[0.18em] text-[var(--brand-accent)] uppercase">Your workspace</p>
         <h2 class="mt-4 text-3xl font-semibold tracking-tight sm:text-4xl">Good morning, {{ firstName }}.</h2>
         <p class="mt-4 max-w-xl text-sm leading-7 text-white/65">Everything is in place. Keep your momentum clear, focused, and moving forward.</p>
-        <router-link to="/profile" class="mt-7 inline-flex items-center gap-3 rounded-xl bg-[#d4e86b] px-4 py-3 text-sm font-semibold text-[#173d32] transition hover:bg-[#e0f38c]">Review your profile <span aria-hidden="true">&rarr;</span></router-link>
+        <router-link to="/profile" class="mt-7 inline-flex items-center gap-3 rounded-xl bg-[var(--brand-accent)] px-4 py-3 text-sm font-semibold text-[var(--brand-primary)] transition hover:bg-[var(--brand-accent-soft)]">Review your profile <span aria-hidden="true">&rarr;</span></router-link>
       </div>
     </section>
 
@@ -44,11 +44,11 @@
         </div>
       </div>
 
-      <div class="rounded-2xl bg-[#e8efdf] p-6 sm:p-7">
-        <span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-sm font-bold text-[#173d32]">01</span>
-        <h3 class="mt-8 text-xl font-semibold tracking-tight text-[#173d32]">Keep your details current.</h3>
-        <p class="mt-3 text-sm leading-6 text-[#173d32]/65">A complete profile helps your workspace stay useful and personal.</p>
-        <router-link to="/profile" class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[#173d32] hover:text-emerald-700">Open profile <span aria-hidden="true">&rarr;</span></router-link>
+      <div class="rounded-2xl bg-[var(--brand-accent-soft)] p-6 sm:p-7">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-sm font-bold text-[var(--brand-primary)]">01</span>
+        <h3 class="mt-8 text-xl font-semibold tracking-tight text-[var(--brand-primary)]">Keep your details current.</h3>
+        <p class="mt-3 text-sm leading-6 text-[var(--brand-primary)]/65">A complete profile helps your workspace stay useful and personal.</p>
+        <router-link to="/profile" class="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-[var(--brand-primary)] hover:text-[var(--brand-primary-strong)]">Open profile <span aria-hidden="true">&rarr;</span></router-link>
       </div>
     </section>
   </div>

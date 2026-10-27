@@ -1,7 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\BatchController;
+use App\Http\Controllers\Admin\ContainerController;
+use App\Http\Controllers\Admin\PartyController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\VesselController;
+use App\Http\Controllers\Admin\VoyageController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\AuthController;
@@ -39,6 +44,11 @@ Route::middleware('auth:api')->group(function () {
        // Admin-Only endpoints
     Route::middleware(['role:admin'])->group(function () {
         Route::get('/admin/dashboard', [ApiController::class, 'adminDashboard']);
+        Route::apiResource('parties', PartyController::class);
+        Route::apiResource('vessels', VesselController::class);
+        Route::apiResource('batches', BatchController::class);
+        Route::apiResource('voyages', VoyageController::class);
+        Route::apiResource('containers', ContainerController::class);
     });
 });
 

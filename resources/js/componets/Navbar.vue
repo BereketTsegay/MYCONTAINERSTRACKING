@@ -1,16 +1,16 @@
 <template>
-  <nav class="bg-white border-b border-gray-100 px-6 py-4 flex justify-between items-center">
-    <div class="font-bold text-lg text-emerald-700">SPA Portal</div>
+  <nav class="border-b border-[var(--brand-border)] bg-[var(--brand-surface)] px-6 py-4 flex justify-between items-center shadow-sm">
+    <div class="font-bold text-lg text-[var(--brand-primary)]">SPA Portal</div>
 
     <div class="flex items-center gap-4">
       <template v-if="authStore.isAuthenticated">
-        <span class="text-sm text-gray-600">Hello, {{ authStore.user?.name }}</span>
-        <button @click="handleLogout" class="text-sm font-medium text-gray-500 hover:text-gray-900">
+        <span class="text-sm text-[var(--brand-muted)]">Hello, {{ authStore.user?.name }}</span>
+        <button @click="handleLogout" class="text-sm font-medium text-[var(--brand-primary)] hover:text-[var(--brand-primary-strong)]">
           Sign Out
         </button>
       </template>
       <template v-else>
-        <router-link to="/login" class="text-sm font-medium text-emerald-600 hover:text-emerald-700">Sign In</router-link>
+        <router-link to="/login" class="text-sm font-medium text-[var(--brand-primary)] hover:text-[var(--brand-primary-strong)]">Sign In</router-link>
       </template>
     </div>
   </nav>

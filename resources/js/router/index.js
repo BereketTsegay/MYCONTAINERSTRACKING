@@ -40,8 +40,8 @@ const routes = [
         path: '/admin/permissions',
         name: 'admin.permissions',
         // Lazy-load the dashboard view we built in the previous steps
-        component: () => import('../views/admin/PermissionDashboard.vue'), 
-        meta: { 
+        component: () => import('../views/admin/PermissionDashboard.vue'),
+        meta: {
           requiresRole: 'admin' // Only users with 'admin' in their JWT claims can enter
         }
       },
@@ -49,11 +49,56 @@ const routes = [
         path: '/admin/roles',
         name: 'admin.roles',
         // Lazy-load the dashboard view we built in the previous steps
-        component: () => import('../views/admin/RoleManager.vue'), 
-        meta: { 
+        component: () => import('../views/admin/RoleManager.vue'),
+        meta: {
           requiresRole: 'admin' // Only users with 'admin' in their JWT claims can enter
         }
       },
+      {
+            path: '/cargo/parties',
+            name: 'cargo.parties',
+            component: () => import('../views/cargo/parties/PartyManager.vue'),
+            meta: {
+            requiresRole: 'admin',
+            title: 'Cargo Parties Management'
+            }
+        },
+      {
+            path: '/cargo/vessels',
+            name: 'cargo.vessels',
+            component: () => import('../views/cargo/vessels/VesselManager.vue'),
+            meta: {
+            requiresRole: 'admin',
+            title: 'Cargo Vessels Management'
+            }
+        },
+      {
+            path: '/cargo/batches',
+            name: 'cargo.batches',
+            component: () => import('../views/cargo/batchs/batchs.vue'),
+            meta: {
+            requiresRole: 'admin',
+            title: 'Cargo Batches Management'
+            }
+        },
+        {
+            path: '/cargo/voyages',
+            name: 'cargo.voyages',
+            component: () => import('../views/cargo/voyage/index.vue'),
+            meta: {
+            requiresRole: 'admin',
+            title: 'Cargo Voyages Management'
+            }
+        },
+        {
+            path: '/cargo/containers',
+            name: 'cargo.containers',
+            component: () => import('../views/cargo/container/index.vue'),
+            meta: {
+            requiresRole: 'admin',
+            title: 'Cargo Containers Management'
+            }
+        }
     ]
   },
   {

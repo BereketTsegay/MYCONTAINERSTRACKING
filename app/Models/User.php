@@ -14,7 +14,7 @@ use Illuminate\Support\Carbon;
 use Spatie\Permission\Traits\HasRoles;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Spatie\Activitylog\Models\Concerns\LogsActivity;
-use Spatie\Activitylog\LogOptions; //
+use Spatie\Activitylog\Support\LogOptions;
 
 /**
  * @property int $id
@@ -75,7 +75,7 @@ class User extends Authenticatable implements JWTSubject
         return LogOptions::defaults()
             ->logOnly(['name', 'email']) // Log changes to these fields
             ->logOnlyDirty()
-            ->dontSubmitEmptyLogs();
+            ->dontLogEmptyChanges();
     }
 
     // Rest omitted for brevity

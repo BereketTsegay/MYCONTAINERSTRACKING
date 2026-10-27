@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SaaS Application Framework</title>
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- 1. Vite directive compiles and injects your Tailwind CSS and JavaScript modules -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])

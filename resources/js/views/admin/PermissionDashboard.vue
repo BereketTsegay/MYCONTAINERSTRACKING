@@ -125,22 +125,22 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.dashboard-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; font-family: system-ui, sans-serif; }
-.header-section { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e5e7eb; padding-bottom: 1rem; margin-bottom: 1.5rem; }
-.tabs button { padding: 0.6rem 1.2rem; background: #e5e7eb; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; margin-right: 0.5rem; }
-.tabs button.active { background: #2563eb; color: white; }
-.frequent-pages-banner { background: #eff6ff; border: 1px solid #bfdbfe; padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 2rem; font-size: 0.9rem; }
-.visit-badge { background: #2563eb; color: white; padding: 0.2rem 0.6rem; border-radius: 12px; margin-left: 0.5rem; font-size: 0.8rem; }
-.panel-card { background: white; padding: 1.5rem; border-radius: 8px; border: 1px solid #e5e7eb; margin-bottom: 2rem; }
+.dashboard-wrapper { padding: 2rem; max-width: 1200px; margin: 0 auto; font-family: var(--font-sans); }
+.header-section { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid rgba(23, 61, 50, 0.12); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+.tabs button { padding: 0.6rem 1.2rem; background: rgba(23, 61, 50, 0.06); border: none; border-radius: 10px; cursor: pointer; font-weight: 600; margin-right: 0.5rem; color: var(--brand-primary); }
+.tabs button.active { background: var(--brand-primary); color: white; box-shadow: 0 10px 20px rgba(23, 61, 50, 0.12); }
+.frequent-pages-banner { background: rgba(212, 232, 107, 0.12); border: 1px solid rgba(23, 61, 50, 0.12); padding: 0.75rem 1rem; border-radius: 12px; margin-bottom: 2rem; font-size: 0.9rem; }
+.visit-badge { background: var(--brand-primary); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; margin-left: 0.5rem; font-size: 0.8rem; }
+.panel-card { background: white; padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(23, 61, 50, 0.08); margin-bottom: 2rem; }
 .inline-user-form { display: flex; gap: 1rem; margin-bottom: 1.5rem; }
-.inline-user-form input { padding: 0.6rem; border: 1px solid #d1d5db; border-radius: 6px; flex: 1; }
+.inline-user-form input { padding: 0.6rem; border: 1px solid var(--brand-border); border-radius: 10px; flex: 1; }
 .data-table { width: 100%; border-collapse: collapse; text-align: left; }
-.data-table th, .data-table td { padding: 0.75rem; border-bottom: 1px solid #e5e7eb; }
-.role-pill { background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem; border: 1px solid #e5e7eb; }
-.logs-timeline { background: #1e293b; color: #f8fafc; padding: 1.5rem; border-radius: 6px; font-family: monospace; max-height: 400px; overflow-y: auto; margin-top: 1rem; }
-.log-item { margin-bottom: 0.5rem; border-bottom: 1px solid #334155; padding-bottom: 0.25rem; font-size: 0.9rem; }
-.log-time { color: #38bdf8; margin-right: 0.5rem; }
-.log-actor { color: #4ade80; }
-.btn-primary { background: #2563eb; color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 6px; cursor: pointer; }
-.btn-secondary { background: #4b5563; color: white; border: none; padding: 0.4rem 1rem; border-radius: 6px; cursor: pointer; }
+.data-table th, .data-table td { padding: 0.75rem; border-bottom: 1px solid rgba(23, 61, 50, 0.08); }
+.role-pill { background: rgba(212, 232, 107, 0.12); padding: 0.25rem 0.5rem; border-radius: 999px; font-size: 0.8rem; border: 1px solid rgba(23, 61, 50, 0.08); color: var(--brand-primary); }
+.logs-timeline { background: var(--brand-primary); color: #f8fafc; padding: 1.5rem; border-radius: 12px; font-family: monospace; max-height: 400px; overflow-y: auto; margin-top: 1rem; }
+.log-item { margin-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.12); padding-bottom: 0.25rem; font-size: 0.9rem; }
+.log-time { color: var(--brand-accent); margin-right: 0.5rem; }
+.log-actor { color: #cfe9a8; }
+.btn-primary { background: var(--brand-primary); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 10px; cursor: pointer; font-weight: 600; }
+.btn-secondary { background: rgba(23, 61, 50, 0.12); color: var(--brand-primary); border: none; padding: 0.4rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
 </style>

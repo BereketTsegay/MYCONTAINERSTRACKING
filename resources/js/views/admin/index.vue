@@ -1,47 +1,286 @@
+<!-- src/views/DashboardView.vue -->
 <template>
-  <div class="space-y-8">
-    <section class="flex flex-col justify-between gap-6 rounded-4xl border border-slate-200/80 bg-white px-6 py-7 shadow-sm sm:px-8 sm:py-9 md:flex-row md:items-end">
-      <div><div class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-emerald-700 uppercase"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>Restricted area</div><h2 class="mt-4 text-3xl font-semibold tracking-tight text-slate-950 sm:text-4xl">Admin center</h2><p class="mt-3 max-w-xl text-sm leading-6 text-slate-500">A focused view of your platform, people, and system health.</p></div>
-      <div class="rounded-xl bg-[#173d32] px-4 py-3 text-right text-white"><p class="text-[10px] font-semibold tracking-[0.15em] text-[#d4e86b] uppercase">Access</p><p class="mt-1 text-sm font-medium">Administrator</p></div>
-    </section>
+  <div class="dashboard-root">
+    <!-- Top Welcome Header -->
+    <header class="welcome-section">
+      <div class="welcome-text">
+        <h1>Logistics Hub Overview</h1>
+        <p class="subtitle">System Time: October 6, 2026 • Welcome back to your operation logs.</p>
+      </div>
+    </header>
 
-    <section class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-      <article class="rounded-2xl bg-[#173d32] p-6 text-white shadow-lg shadow-emerald-950/10"><div class="flex items-center justify-between"><p class="text-xs font-semibold tracking-[0.16em] text-white/50 uppercase">Users</p><span class="text-xs text-[#d4e86b]">LIVE</span></div><p class="mt-8 text-4xl font-semibold tracking-tight">{{ adminStats.totalUsers }}</p><p class="mt-2 text-sm text-white/55">Registered accounts</p></article>
-      <article class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm"><div class="flex items-center justify-between"><p class="text-xs font-semibold tracking-[0.16em] text-slate-400 uppercase">System status</p><span class="grid h-9 w-9 place-items-center rounded-xl bg-emerald-50 text-xs font-bold text-emerald-700">OK</span></div><p class="mt-8 text-2xl font-semibold tracking-tight text-slate-950">{{ adminStats.systemStatus }}</p><p class="mt-2 text-sm text-slate-500">Core services operational</p></article>
-      <article class="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-sm sm:col-span-2 xl:col-span-1"><div class="flex items-center justify-between"><p class="text-xs font-semibold tracking-[0.16em] text-slate-400 uppercase">Environment</p><span class="grid h-9 w-9 place-items-center rounded-xl bg-lime-50 text-xs font-bold text-lime-700">ENV</span></div><p class="mt-8 text-2xl font-semibold tracking-tight text-slate-950 capitalize">{{ adminStats.environment }}</p><p class="mt-2 text-sm text-slate-500">Current application context</p></article>
-    </section>
 
-    <section class="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
-      <div class="rounded-2xl border border-slate-200/80 bg-white shadow-sm">
-        <div class="border-b border-slate-100 px-6 py-5 sm:px-7"><h3 class="text-base font-semibold text-slate-950">Administration tools</h3><p class="mt-1 text-sm text-slate-500">The controls available to your administrator role.</p></div>
-        <div class="grid gap-3 p-5 sm:grid-cols-2 sm:p-7">
-          <div v-for="tool in tools" :key="tool.title" class="group rounded-xl border border-slate-200 p-4 transition hover:border-emerald-300 hover:bg-emerald-50/40"><div class="flex items-center justify-between"><span class="grid h-9 w-9 place-items-center rounded-lg bg-slate-100 text-[10px] font-bold text-slate-600 group-hover:bg-emerald-100 group-hover:text-emerald-700">{{ tool.short }}</span><span class="text-slate-300 transition group-hover:text-emerald-600" aria-hidden="true">&rarr;</span></div><h4 class="mt-5 text-sm font-semibold text-slate-800">{{ tool.title }}</h4><p class="mt-1 text-xs leading-5 text-slate-500">{{ tool.detail }}</p></div>
+    <!-- PERSISTENT CLIENT COMPONENT: FREQUENTLY VISITED PAGES TRACKER -->
+    <div class="frequent-pages-banner">
+      <strong>⚡ Quick Links (Most Visited Channels):</strong>
+      <span v-if="trackerStore.frequentlyVisited.length === 0" class="no-badge">No page telemetry recorded yet. Navigate below to begin tracking.</span>
+      <span
+        v-for="page in trackerStore.frequentlyVisited"
+        :key="page.name"
+        class="visit-badge"
+        @click="navigateToPage(page.name)"
+      >
+        {{ formatRouteLabel(page.name) }} ({{ page.count }})
+      </span>
+    </div>
+
+    <!-- CORE CHANNELS GRID LINK MATRIX -->
+    <div class="modules-grid">
+      <!-- Card 1: Core Access Control Configuration Matrix -->
+      <div class="module-card access-card" v-if="roles.includes('admin')">
+        <div class="card-icon">🛡️</div>
+        <div class="card-body">
+          <h3>Access Controls</h3>
+          <p>Modify role scopes, register system permissions, and bind permissions matrices dynamically.</p>
+          <RouterLink to="/admin/permissions" class="btn-navigate admin-btn">Manage Security</RouterLink>
         </div>
       </div>
 
-      <div class="rounded-2xl bg-[#e8efdf] p-6 sm:p-7"><span class="grid h-10 w-10 place-items-center rounded-xl bg-white text-xs font-bold text-[#173d32]">SYS</span><h3 class="mt-8 text-xl font-semibold tracking-tight text-[#173d32]">Platform health is steady.</h3><p class="mt-3 text-sm leading-6 text-[#173d32]/65">No active incidents or pending system actions require your attention.</p><div class="mt-8 flex items-center gap-3 border-t border-[#173d32]/10 pt-5"><span class="h-2 w-2 rounded-full bg-emerald-600"></span><span class="text-xs font-semibold text-[#173d32]">All services operational</span></div></div>
-    </section>
+      <!-- Card 2: Corporate Registry / Parties -->
+      <div class="module-card">
+        <div class="card-icon">🏢</div>
+        <div class="card-body">
+          <h3>Corporate Parties</h3>
+          <p>Manage entities across system registers including Shippers, Transitors, and Shipping Lines.</p>
+          <RouterLink to="/cargo/parties" class="btn-navigate">Open Registry</RouterLink>
+        </div>
+      </div>
+
+      <!-- Card 3: Marine Vessels -->
+      <div class="module-card">
+        <div class="card-icon">🚢</div>
+        <div class="card-body">
+          <h3>Marine Vessels</h3>
+          <p>Track vessel specifications, register active carrier names, and log IMO classification profiles.</p>
+          <RouterLink to="/cargo/vessels" class="btn-navigate">Manage Fleet</RouterLink>
+        </div>
+      </div>
+
+      <!-- Card 4: Production Batches -->
+      <div class="module-card">
+        <div class="card-icon">📦</div>
+        <div class="card-body">
+          <h3>Inventory Batches</h3>
+          <p>Initialize cargo tracking allocations and allocate production batch numbers.</p>
+          <RouterLink to="/cargo/batches" class="btn-navigate">View Batches</RouterLink>
+        </div>
+      </div>
+
+      <!-- Card 5: Voyage Transits -->
+      <div class="module-card">
+        <div class="card-icon">🗺️</div>
+        <div class="card-body">
+          <h3>Transit Voyages</h3>
+          <p>Schedule routes, map load/discharge ports, and trace active line operations.</p>
+          <RouterLink to="/cargo/voyages" class="btn-navigate">Track Routes</RouterLink>
+        </div>
+      </div>
+
+      <!-- Card 6: Cargo Containers -->
+      <div class="module-card">
+        <div class="card-icon">📥</div>
+        <div class="card-body">
+          <h3>Cargo Containers</h3>
+          <p>Log container size variations, review load VGM metrics, and trace active inventory states.</p>
+          <RouterLink to="/cargo/containers" class="btn-navigate">Open Inventory</RouterLink>
+        </div>
+      </div>
+    </div>
   </div>
- </template>
+</template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
-import api from '../../api/axios';
+import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { useAuthStore } from '../../stores/auth';
+import { usePageTrackerStore } from '../../stores/pageTracker';
 
-const adminStats = reactive({ totalUsers: '--', systemStatus: 'Operational', environment: 'Unknown' });
-const tools = [
-  { short: 'USR', title: 'User management', detail: 'Review account access and role assignments.' },
-  { short: 'LOG', title: 'Activity logs', detail: 'Inspect recent platform events and audits.' },
-  { short: 'CFG', title: 'System settings', detail: 'Keep application configuration in check.' },
-  { short: 'SEC', title: 'Security review', detail: 'Monitor access and authentication signals.' }
-];
+const router = useRouter();
+const authStore = useAuthStore();
+const trackerStore = usePageTrackerStore();
 
-onMounted(async () => {
-  try {
-    const { data } = await api.get('/admin/dashboard');
-    adminStats.totalUsers = data.metrics.total_users ?? '--';
-    adminStats.systemStatus = data.metrics.system_status || 'Operational';
-    adminStats.environment = data.metrics.environment || 'Unknown';
-  } catch {}
-});
+const { roles } = storeToRefs(authStore);
+
+// Helper mapping client names to clear textual strings
+const formatRouteLabel = (routeName) => {
+  if (typeof routeName !== 'string') return routeName;
+  return routeName.replace('admin.cargo.', '').replace('admin.', '').toUpperCase();
+};
+
+// Jump handler for the local telemetry badge items
+const navigateToPage = (target) => {
+  router.push({ name: target }).catch(() => {
+    // Fallback block if route tracks paths instead of explicit route names
+    if (target.startsWith('/')) router.push(target);
+  });
+};
 </script>
+
+<style scoped>
+.dashboard-root {
+  padding: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  font-family: var(--font-sans);
+  color: var(--brand-text);
+}
+
+.welcome-section {
+  background: linear-gradient(135deg, rgba(212, 232, 107, 0.12), rgba(255, 255, 255, 0.9));
+  border: 1px solid rgba(23, 61, 50, 0.08);
+  border-radius: 20px;
+  padding: 1.5rem 1.5rem 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 12px 28px var(--brand-shadow);
+}
+
+.welcome-section h1 {
+  font-size: clamp(1.8rem, 2.4vw, 2.4rem);
+  font-weight: 700;
+  color: var(--brand-primary);
+  margin: 0;
+}
+
+.subtitle {
+  color: var(--brand-muted);
+  font-size: 0.95rem;
+  margin-top: 0.4rem;
+}
+
+.frequent-pages-banner {
+  background: rgba(23, 61, 50, 0.03);
+  border: 1px solid var(--brand-border);
+  padding: 0.9rem 1.1rem;
+  border-radius: 14px;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  color: var(--brand-primary-strong);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.no-badge {
+  font-style: italic;
+  color: var(--brand-muted);
+}
+
+.visit-badge {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-strong));
+  color: white;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.visit-badge:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.modules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.35rem;
+}
+
+.module-card {
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  gap: 1rem;
+  box-shadow: 0 8px 20px rgba(23, 61, 50, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(23, 61, 50, 0.08);
+  border-color: rgba(23, 61, 50, 0.09);
+}
+
+.card-icon {
+  font-size: 2.2rem;
+  line-height: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: rgba(212, 232, 107, 0.18);
+  border-radius: 14px;
+  border: 1px solid rgba(23, 61, 50, 0.06);
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.card-body h3 {
+  margin: 0 0 0.55rem 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+.card-body p {
+  margin: 0 0 1.25rem 0;
+  color: var(--brand-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.btn-navigate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-primary-strong));
+  color: white;
+  text-decoration: none;
+  padding: 0.62rem 1.1rem;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-align: center;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.btn-navigate:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+}
+
+.access-card {
+  background: linear-gradient(135deg, rgba(212, 232, 107, 0.08), rgba(255, 255, 255, 0.96));
+  border-color: rgba(23, 61, 50, 0.08);
+}
+
+.admin-btn {
+  background: linear-gradient(135deg, #5f4bb6, #7b61d8);
+}
+
+@media (max-width: 640px) {
+  .dashboard-root {
+    padding: 1rem;
+  }
+
+  .module-card {
+    flex-direction: column;
+  }
+
+  .card-icon {
+    width: 2.8rem;
+    height: 2.8rem;
+  }
+}
+</style>
