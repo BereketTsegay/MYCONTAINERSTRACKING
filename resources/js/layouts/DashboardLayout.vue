@@ -142,6 +142,17 @@ const structuredNav = computed(() => {
           { name: 'Transit Voyages', path: '/cargo/voyages' },
           { name: 'Containers Log', path: '/cargo/containers' }
         ]
+      },
+      {
+        id: 'loadlist',
+        name: 'Load List',
+        short: 'LD',
+        isGroup: true,
+        children: [
+          { name: 'loading lists', path: '/cargo/loadlists' },
+          { name: 'loading items', path: '/cargo/loadlist/items' },
+          { name: 'Items Categories', path: '/cargo/loadlist/categories' }
+        ]
       }
     );
   }
