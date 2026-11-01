@@ -98,6 +98,18 @@ const routes = [
             requiresRole: 'admin',
             title: 'Cargo Containers Management'
             }
+        },
+        {
+          path: '/cargo/products',
+          name: 'cargo.products',
+          component: () => import('../views/cargo/product/index.vue'),
+          meta: { requiresAuth: true, requiresRole: 'admin' }
+        },
+        {
+          path: '/cargo/catalog-settings',
+          name: 'cargo.catalog-settings',
+          component: () => import('../views/cargo/product/CatalogSettings.vue'),
+          meta: { requiresAuth: true, requiresRole: 'admin' }
         }
     ]
   },

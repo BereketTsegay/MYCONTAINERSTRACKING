@@ -140,7 +140,9 @@ const structuredNav = computed(() => {
           { name: 'Vessels Fleet', path: '/cargo/vessels' },
           { name: 'Inventory Batches', path: '/cargo/batches' },
           { name: 'Transit Voyages', path: '/cargo/voyages' },
-          { name: 'Containers Log', path: '/cargo/containers' }
+          { name: 'Containers Log', path: '/cargo/containers' },
+          { name: 'Products Inventory', path: '/cargo/products' },
+          { name: 'Catalog Settings', path: '/cargo/catalog-settings' }
         ]
       },
       {

@@ -1,10 +1,13 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\ContainerController;
 use App\Http\Controllers\Admin\PartyController;
+use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RolePermissionController;
+use App\Http\Controllers\Admin\UomController;
 use App\Http\Controllers\Admin\VesselController;
 use App\Http\Controllers\Admin\VoyageController;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +52,12 @@ Route::middleware('auth:api')->group(function () {
         Route::apiResource('batches', BatchController::class);
         Route::apiResource('voyages', VoyageController::class);
         Route::apiResource('containers', ContainerController::class);
+        Route::get('products/lookups', [ProductController::class, 'lookups']);
+        Route::apiResource('products', ProductController::class);
+        Route::apiResource('categories', CategoryController::class)->only(['index', 'store', 'destroy']);
+        Route::apiResource('uoms', UomController::class)->only(['index', 'store', 'destroy']);
+
+
     });
 });
 

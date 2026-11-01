@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('container_marks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('container_id');
+            $table->string('mark');
+            $table->integer('sort_order');
             $table->timestamps();
         });
     }
