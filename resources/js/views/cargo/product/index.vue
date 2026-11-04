@@ -740,7 +740,9 @@ const lookups = reactive({ categories: [], uoms: [] });
 const form = reactive({
     name: '',
     sku: '',
-    category_id: '',
+    pk_category_id: '',
+    hbill_category_id: '',
+    edpass_category_id: '',
     description: '',
     hs_code: '',
     has_variations: false,
@@ -772,7 +774,9 @@ const openCreateModal = () => {
     Object.assign(form, {
         name: '',
         sku: '',
-        category_id: '',
+        pk_category_id: '',
+        hbill_category_id: '',
+        edpass_category_id: '',
         description: '',
         hs_code: '',
         has_variations: false,

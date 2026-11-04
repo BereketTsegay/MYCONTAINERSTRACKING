@@ -48,7 +48,9 @@ class ProductController extends Controller
     public function store(StoreOrUpdateProductRequest $request)
     {
         return DB::transaction(function () use ($request) {
-            $product = Product::create($request->safe()->except('variations'));
+            
+           
+            $product = $this->save($request);
 
             if ($request->has_variations && $request->has('variations')) {
                 $product->variations()->createMany($request->input('variations'));
@@ -62,11 +64,26 @@ class ProductController extends Controller
         });
     }
 
+    public function save(StoreOrUpdateProductRequest $request)
+    {
+        $product = !!$request->id ? Product::find($request->id) : new Product();
+
+        $product->fill($request->except('variations'));
+
+        $product->pk_category_id = $request->pk_category_id;
+        $product->hbill_category_id = $request->hbill_category_id;
+        $product->edpass_category_id = $request->edpass_category_id;
+        
+        $product->save();
+
+        return $product;
+    }
+
     public function update(StoreOrUpdateProductRequest $request, Product $product)
     {
          return DB::transaction(function () use ($request, $product) {
             // Update the master product attributes safely
-            $product->update($request->safe()->except('variations'));
+            $product = $this->save($request);
 
             if ($request->has_variations && $request->has('variations')) {
                 $incomingIds = collect($request->input('variations'))->pluck('id')->filter()->toArray();
