@@ -1,88 +1,101 @@
 <!-- src/views/DashboardView.vue -->
+<!-- src/views/DashboardView.vue -->
 <template>
-  <div class="dashboard-root">
+  <div class="dashboard-root space-y-6">
     <!-- Top Welcome Header -->
-    <header class="welcome-section">
-      <div class="welcome-text">
-        <h1>Logistics Hub Overview</h1>
-        <p class="subtitle">System Time: October 6, 2026 • Welcome back to your operation logs.</p>
-      </div>
+    <header class="welcome-section border-b border-slate-200 pb-5">
+      <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Logistics Hub Overview</h1>
+      <p class="text-sm text-slate-500 mt-1">System Time: October 2026 • Welcome back to your operation logs.</p>
     </header>
 
-
-    <!-- PERSISTENT CLIENT COMPONENT: FREQUENTLY VISITED PAGES TRACKER -->
-    <div class="frequent-pages-banner">
-      <strong>⚡ Quick Links (Most Visited Channels):</strong>
-      <span v-if="trackerStore.frequentlyVisited.length === 0" class="no-badge">No page telemetry recorded yet. Navigate below to begin tracking.</span>
-      <span
-        v-for="page in trackerStore.frequentlyVisited"
-        :key="page.name"
-        class="visit-badge"
-        @click="navigateToPage(page.name)"
-      >
-        {{ formatRouteLabel(page.name) }} ({{ page.count }})
-      </span>
+    <!-- AUTOMATED CATEGORY & MODULE METRIC COUNTERS TRAY -->
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
+      <!-- KPI: Products Total -->
+      <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Products</div>
+        <div class="text-2xl font-bold text-slate-900 mt-1">{{ metrics.totals.products }}</div>
+      </div>
+      <!-- KPI: Packing Lists -->
+      <div class="bg-blue-50/50 border border-blue-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-blue-500 uppercase tracking-wider">PKList Cats</div>
+        <div class="text-2xl font-bold text-blue-900 mt-1">{{ metrics.categories.pklist }}</div>
+      </div>
+      <!-- KPI: House Bills -->
+      <div class="bg-amber-50/50 border border-amber-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-amber-600 uppercase tracking-wider">HBill Cats</div>
+        <div class="text-2xl font-bold text-amber-900 mt-1">{{ metrics.categories.house_bill }}</div>
+      </div>
+      <!-- KPI: EDPass Codes -->
+      <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-emerald-600 uppercase tracking-wider">EDPass Cats</div>
+        <div class="text-2xl font-bold text-emerald-900 mt-1">{{ metrics.categories.edpass }}</div>
+      </div>
+      <!-- KPI: Containers -->
+      <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Containers</div>
+        <div class="text-2xl font-bold text-slate-900 mt-1">{{ metrics.totals.containers }}</div>
+      </div>
+      <!-- KPI: Voyages -->
+      <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Voyages</div>
+        <div class="text-2xl font-bold text-slate-900 mt-1">{{ metrics.totals.voyages }}</div>
+      </div>
+      <!-- KPI: Parties -->
+      <div class="bg-white border border-slate-100 rounded-xl p-4 shadow-sm">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Parties</div>
+        <div class="text-2xl font-bold text-slate-900 mt-1">{{ metrics.totals.parties }}</div>
+      </div>
     </div>
 
     <!-- CORE CHANNELS GRID LINK MATRIX -->
-    <div class="modules-grid">
-      <!-- Card 1: Core Access Control Configuration Matrix -->
-      <div class="module-card access-card" v-if="roles.includes('admin')">
-        <div class="card-icon">🛡️</div>
-        <div class="card-body">
-          <h3>Access Controls</h3>
-          <p>Modify role scopes, register system permissions, and bind permissions matrices dynamically.</p>
-          <RouterLink to="/admin/permissions" class="btn-navigate admin-btn">Manage Security</RouterLink>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-2">
+      <!-- Access Controls Card -->
+      <div v-if="roles.includes('admin')" class="bg-purple-50/40 border border-purple-100 rounded-2xl p-6 hover:shadow-md transition flex gap-4">
+        <div class="text-3xl">🛡️</div>
+        <div class="flex-1 space-y-3">
+          <h3 class="text-base font-bold text-slate-900">Access Controls</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Modify role scopes, register system permissions, and bind permissions matrices dynamically.</p>
+          <RouterLink to="/permissions" class="inline-block rounded-xl bg-purple-600 px-4 py-2 text-xs font-semibold text-white hover:bg-purple-700 transition">Manage Security</RouterLink>
         </div>
       </div>
 
-      <!-- Card 2: Corporate Registry / Parties -->
-      <div class="module-card">
-        <div class="card-icon">🏢</div>
-        <div class="card-body">
-          <h3>Corporate Parties</h3>
-          <p>Manage entities across system registers including Shippers, Transitors, and Shipping Lines.</p>
-          <RouterLink to="/cargo/parties" class="btn-navigate">Open Registry</RouterLink>
+      <!-- Corporate Parties Card -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition flex gap-4">
+        <div class="text-3xl">🏢</div>
+        <div class="flex-1 space-y-3">
+          <h3 class="text-base font-bold text-slate-900">Corporate Parties</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Manage entities across system registers including Shippers, Transitors, and Shipping Lines.</p>
+          <RouterLink to="/cargo/parties" class="inline-block rounded-xl bg-[var(--brand-primary)] px-4 py-2 text-xs font-semibold text-white hover:opacity-95 transition">Open Registry</RouterLink>
         </div>
       </div>
 
-      <!-- Card 3: Marine Vessels -->
-      <div class="module-card">
-        <div class="card-icon">🚢</div>
-        <div class="card-body">
-          <h3>Marine Vessels</h3>
-          <p>Track vessel specifications, register active carrier names, and log IMO classification profiles.</p>
-          <RouterLink to="/cargo/vessels" class="btn-navigate">Manage Fleet</RouterLink>
+      <!-- Transit Voyages Card -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition flex gap-4">
+        <div class="text-3xl">🗺️</div>
+        <div class="flex-1 space-y-3">
+          <h3 class="text-base font-bold text-slate-900">Transit Voyages</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Schedule routes, map load/discharge ports, and trace active line operations with real-time tracking.</p>
+          <RouterLink to="/cargo/voyages" class="inline-block rounded-xl bg-[var(--brand-primary)] px-4 py-2 text-xs font-semibold text-white hover:opacity-95 transition">Track Routes</RouterLink>
         </div>
       </div>
 
-      <!-- Card 4: Production Batches -->
-      <div class="module-card">
-        <div class="card-icon">📦</div>
-        <div class="card-body">
-          <h3>Inventory Batches</h3>
-          <p>Initialize cargo tracking allocations and allocate production batch numbers.</p>
-          <RouterLink to="/cargo/batches" class="btn-navigate">View Batches</RouterLink>
+      <!-- Cargo Containers Card -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition flex gap-4">
+        <div class="text-3xl">📥</div>
+        <div class="flex-1 space-y-3">
+          <h3 class="text-base font-bold text-slate-900">Cargo Containers</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Log container size variations, review load VGM weights, and trace active inventory processing states.</p>
+          <RouterLink to="/cargo/containers" class="inline-block rounded-xl bg-[var(--brand-primary)] px-4 py-2 text-xs font-semibold text-white hover:opacity-95 transition">Open Inventory</RouterLink>
         </div>
       </div>
 
-      <!-- Card 5: Voyage Transits -->
-      <div class="module-card">
-        <div class="card-icon">🗺️</div>
-        <div class="card-body">
-          <h3>Transit Voyages</h3>
-          <p>Schedule routes, map load/discharge ports, and trace active line operations.</p>
-          <RouterLink to="/cargo/voyages" class="btn-navigate">Track Routes</RouterLink>
-        </div>
-      </div>
-
-      <!-- Card 6: Cargo Containers -->
-      <div class="module-card">
-        <div class="card-icon">📥</div>
-        <div class="card-body">
-          <h3>Cargo Containers</h3>
-          <p>Log container size variations, review load VGM metrics, and trace active inventory states.</p>
-          <RouterLink to="/cargo/containers" class="btn-navigate">Open Inventory</RouterLink>
+      <!-- Products Catalog Card -->
+      <div class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition flex gap-4">
+        <div class="text-3xl">🏷️</div>
+        <div class="flex-1 space-y-3">
+          <h3 class="text-base font-bold text-slate-900">Products Catalog</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">Maintain master goods catalogs, pack variations schemas, and global customs tariff rules.</p>
+          <RouterLink to="/cargo/products" class="inline-block rounded-xl bg-[var(--brand-primary)] px-4 py-2 text-xs font-semibold text-white hover:opacity-95 transition">View Catalog</RouterLink>
         </div>
       </div>
     </div>
@@ -90,30 +103,32 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useAuthStore } from '../../stores/auth';
-import { usePageTrackerStore } from '../../stores/pageTracker';
+import api from '../../api/axios';
 
-const router = useRouter();
 const authStore = useAuthStore();
-const trackerStore = usePageTrackerStore();
-
 const { roles } = storeToRefs(authStore);
 
-// Helper mapping client names to clear textual strings
-const formatRouteLabel = (routeName) => {
-  if (typeof routeName !== 'string') return routeName;
-  return routeName.replace('admin.cargo.', '').replace('admin.', '').toUpperCase();
+// Reactive nested tracking dictionary mapping structural counters
+const metrics = ref({
+  categories: { pklist: 0, house_bill: 0, edpass: 0 },
+  totals: { products: 0, containers: 0, voyages: 0, parties: 0 }
+});
+
+const fetchDashboardMetrics = async () => {
+  try {
+    const response = await api.get('/dashboard/metrics');
+    metrics.value = response.data.data;
+  } catch (err) {
+    console.error('Error hydrating dashboard aggregates metrics.', err);
+  }
 };
 
-// Jump handler for the local telemetry badge items
-const navigateToPage = (target) => {
-  router.push({ name: target }).catch(() => {
-    // Fallback block if route tracks paths instead of explicit route names
-    if (target.startsWith('/')) router.push(target);
-  });
-};
+onMounted(() => {
+  fetchDashboardMetrics();
+});
 </script>
 
 <style scoped>

@@ -151,9 +151,7 @@ const structuredNav = computed(() => {
         short: 'LD',
         isGroup: true,
         children: [
-          { name: 'loading lists', path: '/cargo/loadlists' },
-          { name: 'loading items', path: '/cargo/loadlist/items' },
-          { name: 'Items Categories', path: '/cargo/loadlist/categories' }
+          { name: 'Loading Lists', path: '/cargo/loading-lists' }
         ]
       }
     );

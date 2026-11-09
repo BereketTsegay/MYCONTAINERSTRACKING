@@ -2,10 +2,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Container;
+use App\Models\Party;
+use App\Models\Product;
 use App\Models\User;
+use App\Models\Voyage;
 use Illuminate\Http\Request;
 use Spatie\Activitylog\Models\Activity;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AdminDashboardController extends Controller
 {
@@ -53,4 +59,35 @@ class AdminDashboardController extends Controller
 
         return response()->json($logs);
     }
+
+    /**
+     * Get real-time metric aggregates for the dashboard view.
+     */
+    public function metrics(): JsonResponse
+    {
+        // 1. Calculate split product category type summary counts
+        $categoryCounts = Category::select('type', \DB::raw('count(*) as total'))
+            ->groupBy('type')
+            ->pluck('total', 'type')
+            ->toArray();
+
+        // 2. Compile metrics package payload
+        return response()->json([
+            'status' => 'success',
+            'data' => [
+                'categories' => [
+                    'pklist' => $categoryCounts['pklist'] ?? 0,
+                    'house_bill' => $categoryCounts['house_bill'] ?? 0,
+                    'edpass' => $categoryCounts['edpass'] ?? 0,
+                ],
+                'totals' => [
+                    'products' => Product::count(),
+                    'containers' => Container::count(),
+                    'voyages' => Voyage::count(),
+                    'parties' => Party::count(),
+                ]
+            ]
+        ]);
+    }
+
 }

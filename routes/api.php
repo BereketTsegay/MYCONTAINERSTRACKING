@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\BatchController;
 use App\Http\Controllers\Admin\ContainerController;
+use App\Http\Controllers\Admin\LoadingListController;
 use App\Http\Controllers\Admin\PartyController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RolePermissionController;
@@ -74,6 +75,12 @@ Route::middleware(['auth:api', 'role:admin'])->prefix('admin')->group(function (
     Route::get('/users', [AdminDashboardController::class, 'usersIndex']);
     Route::post('/users', [AdminDashboardController::class, 'userStore']);
     Route::get('/activity-logs', [AdminDashboardController::class, 'activityIndex']);
+    Route::get('/dashboard/metrics', [AdminDashboardController::class, 'metrics']);
+
+    //loading list
+    Route::post('loading-lists/{loading_list}/generate', [LoadingListController::class, 'generateDocuments']);
+    Route::apiResource('loading-lists', LoadingListController::class);
+    Route::post('loading-lists/upload-csv', [LoadingListController::class, 'uploadCSV']);
 });
 
 

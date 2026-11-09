@@ -110,6 +110,12 @@ const routes = [
           name: 'cargo.catalog-settings',
           component: () => import('../views/cargo/product/CatalogSettings.vue'),
           meta: { requiresAuth: true, requiresRole: 'admin' }
+        },
+        {
+          path: '/cargo/loading-lists',
+          name: 'cargo.loading-lists',
+          component: () => import('../views/cargo/loadinglist/LoadingListManager.vue'),
+          meta: { requiresAuth: true, requiresRole: 'admin' }
         }
     ]
   },
